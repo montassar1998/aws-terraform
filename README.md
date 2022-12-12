@@ -1,0 +1,21 @@
+# aws-terraform
+  region     = "us-east-1"
+  access_key = "*****"
+  secret_key = "*********"
+
+
+  either add these values inside main.tf : provider "aws" {} block 
+  or
+  install aws cli with terraform's shared_credentials_file settings using shared_credentials_file = "/home/vagrant/.aws/credentials" like this
+  
+  
+  provider "aws" {
+   profile    = "test"
+   region     = "eu-central-1"
+   shared_credentials_file = "/home/vagrant/.aws/credentials"
+}
+
+    or configure aws credentaisl as env vars AWS_SECRET_ACCESS_KEY   AWS_ACCESS_KEY_ID
+    After exporting the above variables you do not need to hard code or refer to /.aws/credentials file.
+
+    You can simply write you are terraforming configuration and terraform will fetch the AWS Credentials from the environment variables
