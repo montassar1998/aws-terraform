@@ -1,10 +1,10 @@
 provider "aws" {
-  
+
 }
 resource "aws_vpc" "development-vpc" {
-  cidr_block = var.cidr_blocks[0]
+  cidr_block = var.cidr_blocks[0].cidr_block
   tags = {
-    Name : var.environment
+    Name : var.cidr_blocks[0].name
   }
 }
 #3 ways to assign value to var.
@@ -16,23 +16,29 @@ variable "environment" {
 }
 variable "subnet_cidr_block" {
   description = "Subnet cidr block"
-  default = "10.0.10.0/24"
-  type = string
+  default     = "10.0.10.0/24"
+  type        = string
 }
 variable "vpc_cidr_block" {
   description = "cpv cidr block "
+
+}
+variable avail_zone{
   
 }
 variable "cidr_blocks" {
   description = "cidr blocks for vpc and subnets"
-  type = list(string)
+  type = list(object({
+    cidr_block = string
+    name       = string
+  }))
 }
 resource "aws_subnet" "dev-subnet-1" {
   vpc_id            = aws_vpc.development-vpc.id
-  cidr_block        = var.cidr_blocks[1]
-  availability_zone = "us-east-1a"
+  cidr_block        = var.cidr_blocks[1].cidr_block
+  availability_zone = var.avail_zone
   tags = {
-    Name : "subnet-1-development"
+    Name : var.cidr_blocks[1].name
   }
 
 }
